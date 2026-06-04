@@ -3,64 +3,409 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gouvernement de Cayo Perico - Base Synchronisée</title>
+    <title>Gouvernement de Cayo Perico - Terminal Sécurisé</title>
+    <!-- Importation de polices modernes et agressives -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Quantico:wght@400;700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --color-primary: #1a252f;
-            --color-secondary: #2c3e50;
-            --color-accent: #d4af37;
-            --color-bg: #f4f6f7;
-            --color-text: #333;
-            --color-success: #27ae60;
-            --color-defense: #2e4a3c;
+            --bg-main: #0b0f14;       /* Fond sombre militaire */
+            --bg-card: #12181f;       /* Fond des blocs */
+            --bg-input: #1a222d;      /* Fond des champs */
+            --accent-gold: #e5bd43;   /* Or gouvernemental */
+            --accent-gold-dim: rgba(229, 189, 67, 0.15);
+            --text-main: #f0f4f8;     /* Texte clair */
+            --text-muted: #6c7d93;    /* Texte secondaire */
+            --border-color: #232d3a;  /* Bordures discrètes */
+            --defense-neon: #3bf584;  /* Vert cyber-défense */
+            --error-red: #ff5252;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Times New Roman', Times, serif; }
-        body { background-color: var(--color-bg); color: var(--color-text); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
 
-        /* --- CONNEXION --- */
-        .login-container { background: white; padding: 40px; border-radius: 4px; box-shadow: 0 15px 25px rgba(0,0,0,0.1); border-top: 5px solid var(--color-accent); width: 100%; max-width: 400px; text-align: center; }
-        .göv-logo { font-size: 24px; font-weight: bold; letter-spacing: 2px; margin-bottom: 5px; color: var(--color-primary); }
-        .gov-subtitle { font-size: 12px; text-transform: uppercase; color: #7f8c8d; margin-bottom: 30px; letter-spacing: 1px; }
-        .input-group { margin-bottom: 20px; text-align: left; }
-        .input-group label { display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; }
-        .input-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 3px; background: #fafafa; font-size: 16px; }
-        button { width: 100%; padding: 12px; background: var(--color-primary); color: white; border: 1px solid var(--color-accent); cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.2s; }
-        button:hover { background: var(--color-secondary); }
-        .error-msg { color: #c0392b; font-size: 14px; margin-top: 15px; display: none; }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            background-image: radial-gradient(circle at 50% 50%, #161f2b 0%, var(--bg-main) 70%);
+        }
 
-        /* --- DASHBOARD --- */
-        .dashboard { display: none; width: 100%; max-width: 1300px; background: white; min-height: 85vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); border-radius: 4px; grid-template-columns: 280px 1fr; }
-        .sidebar { background: var(--color-primary); color: white; padding: 30px 20px; display: flex; flex-direction: column; justify-content: space-between; border-right: 3px solid var(--color-accent); }
-        .user-info { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 20px; }
-        .user-role { color: var(--color-accent); font-size: 18px; font-weight: bold; margin-top: 5px; }
-        .nav-btn { background: transparent; border: none; color: #bdc3c7; text-align: left; padding: 12px; margin-bottom: 10px; width: 100%; cursor: pointer; font-size: 15px; }
-        .nav-btn.active, .nav-btn:hover { background: rgba(255,255,255,0.05); color: white; border-left: 4px solid var(--color-accent); }
-        .logout-btn { background: #c0392b; border: none; margin-top: auto; }
+        /* --- ÉCRAN DE CONNEXION --- */
+        .login-container {
+            background: var(--bg-card);
+            padding: 45px 40px;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px var(--border-color);
+            border-top: 4px solid var(--accent-gold);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .göv-logo {
+            font-family: 'Quantico', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: var(--text-main);
+            text-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+
+        .gov-subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-top: 5px;
+            margin-bottom: 35px;
+            letter-spacing: 2px;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--bg-input);
+            color: white;
+            font-size: 15px;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 12px var(--accent-gold-dim);
+        }
+
+        button.glow-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-gold);
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button.glow-btn:hover {
+            background: #fff;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+
+        .error-msg {
+            color: var(--error-red);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        /* --- DASHBOARD INTÉGRAL --- */
+        .dashboard {
+            display: none;
+            width: 96vw;
+            height: 92vh;
+            background: var(--bg-card);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            grid-template-columns: 300px 1fr;
+            overflow: hidden;
+            animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Barre Latérale (Sidebar) */
+        .sidebar {
+            background: #0d131a;
+            padding: 35px 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .user-info {
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .user-info .session-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .user-role {
+            color: var(--text-main);
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            text-align: left;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+        }
+
+        .nav-btn:hover {
+            color: var(--text-main);
+            background: rgba(255,255,255,0.03);
+        }
+
+        .nav-btn.active {
+            background: var(--accent-gold-dim);
+            color: var(--accent-gold);
+            border-color: rgba(229, 189, 67, 0.3);
+            font-weight: 700;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid #3a1c1c;
+            color: #ff6b6b;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: #3a1c1c;
+            color: #fff;
+        }
+
+        /* Zone Principale de Contenu */
+        .main-content {
+            padding: 45px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-family: 'Quantico', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .section-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            background: rgba(59, 245, 132, 0.1);
+            color: var(--defense-neon);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(59, 245, 132, 0.2);
+        }
+
+        /* --- TABLEAUX MODÈLE SHEETS MODERNES --- */
+        .defense-tables-wrapper {
+            display: none;
+            margin-bottom: 25px;
+        }
+
+        .table-title {
+            font-family: 'Quantico', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-main);
+            margin: 25px 0 12px 0;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .gov-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 20px;
+            font-size: 14px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .gov-table th {
+            background-color: #161e27;
+            color: var(--text-muted);
+            text-align: left;
+            padding: 14px;
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gov-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-card);
+            color: var(--text-main);
+        }
+
+        .gov-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .gov-table td[contenteditable="true"]:hover {
+            background-color: var(--bg-input);
+            cursor: cell;
+        }
+
+        .gov-table td[contenteditable="true"]:focus {
+            outline: none;
+            background-color: var(--bg-input);
+            box-shadow: inset 0 0 0 2px var(--accent-gold);
+        }
+
+        /* Boutons d'action des lignes */
+        .action-row-btn {
+            background: var(--bg-input);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+        .action-row-btn:hover {
+            border-color: var(--text-muted);
+            background: #222d3a;
+        }
+
+        /* --- ZONE DE NOTES TEXTE --- */
+        .notes-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            margin-top: 15px;
+        }
+
+        .notes-label {
+            font-family: 'Quantico', sans-serif;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .gov-textarea {
+            width: 100%;
+            flex-grow: 1;
+            min-height: 280px;
+            padding: 20px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: #e0e6ed;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            resize: vertical;
+        }
+
+        .gov-textarea:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 15px rgba(229, 189, 67, 0.1);
+        }
+
+        /* Barre de statut de sauvegarde */
+        .save-status {
+            margin-top: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--defense-neon);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
         
-        .main-content { padding: 40px; display: flex; flex-direction: column; overflow-y: auto; max-height: 85vh; }
-        .section-header { border-bottom: 2px solid var(--color-primary); padding-bottom: 15px; margin-bottom: 25px; }
-        .section-title { font-size: 28px; color: var(--color-primary); text-transform: uppercase; }
+        .save-status::before {
+            content: "●";
+            margin-right: 6px;
+            animation: blink 1s infinite;
+        }
 
-        /* --- TABLEAUX --- */
-        .defense-tables-wrapper { display: none; margin-bottom: 30px; }
-        .table-title { font-size: 16px; font-weight: bold; text-transform: uppercase; color: var(--color-defense); margin: 20px 0 10px 0; letter-spacing: 1px; display: flex; justify-content: space-between; align-items: center; }
-        .gov-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; font-family: Arial, sans-serif; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .gov-table th { background-color: var(--color-defense); color: white; text-align: left; padding: 10px; font-weight: bold; border: 1px solid #1e3329; text-transform: uppercase; font-size: 12px; }
-        .gov-table td { padding: 8px 10px; border: 1px solid #bdc3c7; background-color: #fff; min-width: 100px; }
-        .gov-table td[contenteditable="true"]:hover { background-color: #f1f2f6; cursor: cell; }
-        .gov-table td[contenteditable="true"]:focus { outline: 2px solid var(--color-accent); background-color: #fff; }
-        
-        .action-row-btn { background: #7f8c8d; color: white; border: none; padding: 4px 10px; font-size: 12px; cursor: pointer; width: auto; display: inline-block; margin-right: 5px; }
-        .action-row-btn.add { background: var(--color-defense); border: 1px solid var(--color-accent); }
-        .action-row-btn.del { background: #c0392b; }
-
-        /* --- NOTES --- */
-        .notes-container { flex-grow: 1; display: flex; flex-direction: column; margin-top: 10px; }
-        .notes-label { font-weight: bold; margin-bottom: 10px; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; }
-        .gov-textarea { width: 100%; min-height: 250px; padding: 20px; background: #fdfefe; border: 1px solid #bdc3c7; border-left: 5px solid var(--color-secondary); font-family: 'Courier New', Courier, monospace; font-size: 16px; line-height: 1.6; resize: vertical; }
-        .gov-textarea:focus { outline: none; border-color: var(--color-accent); }
-        .save-status { margin-top: 10px; font-size: 13px; color: var(--color-success); font-style: italic; text-align: right; opacity: 0; transition: opacity 0.3s; }
+        /* --- ANIMATIONS --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scaleUp {
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -68,49 +413,59 @@
     <!-- CONNEXION -->
     <div class="login-container" id="loginPage">
         <div class="göv-logo">CAYO PERICO</div>
-        <div class="gov-subtitle">Système Réseau Cloud du Gouvernement</div>
+        <div class="gov-subtitle">Réseau Central Gouvernemental</div>
+        
         <div class="input-group">
             <label for="username">Identifiant Officiel</label>
-            <input type="text" id="username" autocomplete="off" placeholder="ex: defense_cp">
+            <input type="text" id="username" autocomplete="off" placeholder="Identifiant">
         </div>
+        
         <div class="input-group">
-            <label for="password">Mot de passe</label>
+            <label for="password">Clé d'accès cryptee</label>
             <input type="password" id="password" placeholder="••••••••">
         </div>
-        <button onclick="handleLogin()">S'authentifier</button>
-        <div class="error-msg" id="errorMsg">Identifiants invalides ou accès refusé.</div>
+        
+        <button class="glow-btn" onclick="handleLogin()">Connexion au terminal</button>
+        <div class="error-msg" id="errorMsg">ACCÈS REFUSÉ : Identifiants incorrects.</div>
     </div>
 
     <!-- DASHBOARD -->
     <div class="dashboard" id="dashboardPage">
+        <!-- Barre latérale -->
         <div class="sidebar">
             <div>
                 <div class="user-info">
-                    <div style="font-size: 12px; text-transform: uppercase; opacity: 0.7;">Session Réseau Global</div>
-                    <div class="user-role" id="displayRole">Ministre</div>
+                    <div class="session-title">Session d'autorité active</div>
+                    <div class="user-role" id="displayRole">Chargement...</div>
                 </div>
+                
                 <nav id="navMenu">
-                    <button class="nav-btn" id="btn-defense" onclick="switchSection('defense')">Min. de la Défense</button>
-                    <button class="nav-btn" id="btn-justice" onclick="switchSection('justice')">Min. de la Justice</button>
-                    <button class="nav-btn" id="btn-communication" onclick="switchSection('communication')">Min. de la Communication</button>
+                    <button class="nav-btn" id="btn-defense" onclick="switchSection('defense')">Général - Défense</button>
+                    <button class="nav-btn" id="btn-justice" onclick="switchSection('justice')">Magistrature - Justice</button>
+                    <button class="nav-btn" id="btn-communication" onclick="switchSection('communication')">Médias & Propagande</button>
                 </nav>
             </div>
-            <button class="logout-btn" onclick="handleLogout()">Déconnexion Securisée</button>
+            
+            <button class="logout-btn" onclick="handleLogout()">Terminer la session</button>
         </div>
 
+        <!-- Contenu Principal -->
         <div class="main-content">
             <div class="section-header">
-                <h1 class="section-title" id="currentSectionTitle">Ministère</h1>
-                <p style="font-size: 13px; color: #7f8c8d; margin-top: 5px;">SYNCHRONISÉ EN TEMPS RÉEL — ACCÈS ENREGISTRÉ</p>
+                <div>
+                    <h1 class="section-title" id="currentSectionTitle">Ministère</h1>
+                </div>
+                <div class="section-badge" id="sectionBadge">RÉSEAU CLOUD SÉCURISÉ</div>
             </div>
 
-            <!-- TABLEAUX DEFENSE -->
+            <!-- TABLEAUX DÉFENSE EXCLUSIFS -->
             <div class="defense-tables-wrapper" id="defenseTables">
+                
                 <div class="table-title">
-                    <span>Organigramme & Hiérarchie Militaire</span>
+                    <span>Hiérarchie et Haut Commandement</span>
                     <div>
-                        <button class="action-row-btn add" onclick="addRow('tableHierarchy')">+ Ajouter un Rang</button>
-                        <button class="action-row-btn del" onclick="removeRow('tableHierarchy')">- Supprimer</button>
+                        <button class="action-row-btn" onclick="addRow('tableHierarchy')">+ Ajouter un Rang</button>
+                        <button class="action-row-btn" onclick="removeRow('tableHierarchy')">- Supprimer</button>
                     </div>
                 </div>
                 <table class="gov-table">
@@ -118,47 +473,47 @@
                         <tr>
                             <th style="width: 25%;">Grade / Rang</th>
                             <th style="width: 35%;">Nom de l'Officier</th>
-                            <th style="width: 40%;">Affectation / Rôle Principal</th>
+                            <th style="width: 40%;">Affectation opérationnelle</th>
                         </tr>
                     </thead>
                     <tbody id="tableHierarchy" oninput="triggerTableCloudSave()"></tbody>
                 </table>
 
                 <div class="table-title">
-                    <span>Registre Général de l'Armement & Munitions</span>
+                    <span>Registre Logistique de l'Armement</span>
                     <div>
-                        <button class="action-row-btn add" onclick="addRow('tableWeapons')">+ Ajouter une Arme</button>
-                        <button class="action-row-btn del" onclick="removeRow('tableWeapons')">- Supprimer</button>
+                        <button class="action-row-btn" onclick="addRow('tableWeapons')">+ Ajouter un Matériel</button>
+                        <button class="action-row-btn" onclick="removeRow('tableWeapons')">- Supprimer</button>
                     </div>
                 </div>
                 <table class="gov-table">
                     <thead>
                         <tr>
-                            <th style="width: 30%;">Modèle d'Arme / Équipement</th>
-                            <th style="width: 20%;">Quantité en Stock</th>
-                            <th style="width: 25%;">Numéro de Série / Lot</th>
-                            <th style="width: 25%;">Statut (Opérationnel, Maintenance...)</th>
+                            <th style="width: 35%;">Modèle de l'Équipement</th>
+                            <th style="width: 15%;">Unités</th>
+                            <th style="width: 25%;">Numéro d'immatriculation / Lot</th>
+                            <th style="width: 25%;">Statut d'attribution</th>
                         </tr>
                     </thead>
                     <tbody id="tableWeapons" oninput="triggerTableCloudSave()"></tbody>
                 </table>
             </div>
 
-            <!-- NOTES COMMUNE -->
+            <!-- NOTES TEXTUELLES -->
             <div class="notes-container">
-                <label class="notes-label" id="notesLabel">Registre des notes officielles :</label>
-                <textarea class="gov-textarea" id="govNotes" oninput="triggerNotesCloudSave()" placeholder="Chargement des données sécurisées..."></textarea>
-                <div class="save-status" id="saveStatus">Sauvegardé sur le Cloud Cloud...</div>
+                <label class="notes-label" id="notesLabel">Directives et protocoles officiels</label>
+                <textarea class="gov-textarea" id="govNotes" oninput="triggerNotesCloudSave()" placeholder="Initialisation de la liaison satellite..."></textarea>
+                <div class="save-status" id="saveStatus">Liaison chiffrée établie — Données synchronisées</div>
             </div>
         </div>
     </div>
 
-    <!-- ================= CONFIGURATION & SCRIPTS FIREBASE ================= -->
+    <!-- ================= SCRIPTS & CLOUD CONFIG ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Vos coordonnées Firebase configurées pour le site
+        // Coordonnées Firebase configurées pour Cayo-Gov
         const firebaseConfig = {
             apiKey: "AIzaSyBh5JAtN3iux9CoHPh-r4iOqD10oBBg73c",
             authDomain: "cayo-gov.firebaseapp.com",
@@ -230,7 +585,7 @@
                 communication: "Ministère de la Communication et Propagande"
             };
             document.getElementById("currentSectionTitle").innerText = titles[sectionName];
-            document.getElementById("notesLabel").innerText = `Archives Secrètes : ${titles[sectionName]}`;
+            document.getElementById("notesLabel").innerText = `Directives : ${titles[sectionName]}`;
 
             const tablesWrapper = document.getElementById("defenseTables");
             if (sectionName === "defense") {
@@ -241,23 +596,19 @@
                 if (unsubscribeTables) { unsubscribeTables(); unsubscribeTables = null; }
             }
 
-            // Vider temporairement la zone de texte pendant le changement pour éviter les flashs visuels
-            document.getElementById("govNotes").value = "Chargement des dossiers...";
+            document.getElementById("govNotes").value = "Synchronisation réseau...";
             listenToNotesCloud(sectionName);
         }
-
-        // --- SYNCHRONISATION EN TEMPS RÉEL (CLOUD) ---
 
         function listenToNotesCloud(sectionName) {
             if (unsubscribeNotes) unsubscribeNotes();
             
-            // LA SÉCURITÉ EST ICI : On écoute et on n'applique que SI le joueur est toujours sur la même section
             unsubscribeNotes = onSnapshot(doc(db, "gouvernement", `notes_${sectionName}`), (docSnap) => {
                 if (currentActiveSection === sectionName) {
                     if (docSnap.exists() && document.activeElement !== document.getElementById("govNotes")) {
                         document.getElementById("govNotes").value = docSnap.data().text || "";
                     } else if (!docSnap.exists() && document.activeElement !== document.getElementById("govNotes")) {
-                        document.getElementById("govNotes").value = ""; // Si le document n'existe pas encore dans Firebase
+                        document.getElementById("govNotes").value = "";
                     }
                 }
             });
@@ -277,11 +628,10 @@
             });
         }
 
-        // --- SYNC DES SAUVEGARDES VERS LE CLOUD ---
         let notesTimeout;
         window.triggerNotesCloudSave = function() {
             clearTimeout(notesTimeout);
-            const sectionAEnregistrer = currentActiveSection; // Bloque la section au moment de la frappe
+            const sectionAEnregistrer = currentActiveSection;
             notesTimeout = setTimeout(async () => {
                 const textContent = document.getElementById("govNotes").value;
                 await setDoc(doc(db, "gouvernement", `notes_${sectionAEnregistrer}`), { text: textContent }, { merge: true });
@@ -302,7 +652,6 @@
             }, 400);
         }
 
-        // --- MANIPULATION DES TABLEAUX ---
         window.addRow = function(tableId) {
             const tbody = document.getElementById(tableId);
             const colCount = tbody.closest('table').querySelectorAll('thead th').length;
