@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gouvernement de Cayo Perico - Accès Sécurisé</title>
+    <style>
+        :root {
+            --color-primary: #1a252f;
+            --color-secondary: #2c3e50;
+            --color-accent: #d4af37; /* Or gouvernemental */
+            --color-bg: #f4f6f7;
+            --color-text: #333;
+            --color-success: #27ae60;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Times New Roman', Times, serif; /* Style officiel / juridique */
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- ÉCRAN DE CONNEXION --- */
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 4px;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--color-accent);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .göv-logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            color: var(--color-primary);
+        }
+
+        .gov-subtitle {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background: #fafafa;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: var(--color-primary);
+            color: white;
+            border: 1px solid var(--color-accent);
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: var(--color-secondary);
+        }
+
+        .error-msg {
+            color: #c0392b;
+            font-size: 14px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* --- DASHBOARD GOUVERNEMENTAL --- */
+        .dashboard {
+            display: none;
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            min-height: 80vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            border-radius: 4px;
+            grid-template-columns: 280px 1fr;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--color-primary);
+            color: white;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 3px solid var(--color-accent);
+        }
+
+        .user-info {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .user-role {
+            color: var(--color-accent);
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: #bdc3c7;
+            text-align: left;
+            padding: 12px;
+            margin-bottom: 10px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .nav-btn.active, .nav-btn:hover {
+            background: rgba(255,255,255,0.05);
+            color: white;
+            border-left: 4px solid var(--color-accent);
+        }
+
+        .logout-btn {
+            background: #c0392b;
+            border: none;
+            margin-top: auto;
+        }
+
+        /* Zone de contenu */
+        .main-content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-header {
+            border-bottom: 2px solid var(--color-primary);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: var(--color-primary);
+            text-transform: uppercase;
+        }
+
+        /* Notes Style Archive Officielle */
+        .notes-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notes-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .gov-textarea {
+            width: 100%;
+            flex-grow: 1;
+            min-height: 300px;
+            padding: 20px;
+            background: #fdfefe;
+            border: 1px solid #bdc3c7;
+            border-left: 5px solid var(--color-secondary);
+            font-family: 'Courier New', Courier, monospace; /* Style machine à écrire / rapports */
+            font-size: 16px;
+            line-height: 1.6;
+            resize: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .gov-textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+        }
+
+        .save-status {
+            margin-top: 10px;
+            font-size: 13px;
+            color: var(--color-success);
+            font-style: italic;
+            text-align: right;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container" id="loginPage">
+        <div class="göv-logo">CAYO PERICO</div>
+        <div class="gov-subtitle">Système d'Archives Nationales</div>
+        
+        <div class="input-group">
+            <label for="username">Identifiant Officiel</label>
+            <input type="text" id="username" autocomplete="off" placeholder="ex: justice_cp">
+        </div>
+        
+        <div class="input-group">
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+        
+        <button onclick="handleLogin()">S'authentifier</button>
+        <div class="error-msg" id="errorMsg">Identifiants invalides ou accès refusé.</div>
+    </div>
+
+    <div class="dashboard" id="dashboardPage">
+        <div class="sidebar">
+            <div>
+                <div class="user-info">
+                    <div style="font-size: 12px; text-transform: uppercase; opacity: 0.7;">Session Active</div>
+                    <div class="user-role" id="displayRole">Ministre</div>
+                </div>
+                
+                <nav id="navMenu">
+                    <button class="nav-btn" id="btn-defense" onclick="switchSection('defense')">Min. de la Défense</button>
+                    <button class="nav-btn" id="btn-justice" onclick="switchSection('justice')">Min. de la Justice</button>
+                    <button class="nav-btn" id="btn-communication" onclick="switchSection('communication')">Min. de la Communication</button>
+                </nav>
+            </div>
+            
+            <button class="logout-btn" onclick="handleLogout()">Déconnexion Securisée</button>
+        </div>
+
+        <div class="main-content">
+            <div class="section-header">
+                <h1 class="section-title" id="currentSectionTitle">Ministère</h1>
+                <p style="font-size: 13px; color: #7f8c8d; margin-top: 5px;">CLASSIFIÉ - INTERDIT AUX PERSONNES NON AUTORISÉES</p>
+            </div>
+
+            <div class="notes-container">
+                <label class="notes-label" id="notesLabel">Registre des notes officielles :</label>
+                <textarea class="gov-textarea" id="govNotes" oninput="saveNotes()" placeholder="Écrivez vos directives ou rapports ici..."></textarea>
+                <div class="save-status" id="saveStatus">Document synchronisé avec les archives nationales...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- BASE DE DONNÉES DES UTILISATEURS (Comptes demandés) ---
+        const USERS = {
+            "defense_cp": { mdp: "cayo123", role: "Ministre de la Défense", perm: "defense" },
+            "justice_cp": { mdp: "cayo123", role: "Ministre de la Justice", perm: "justice" },
+            "comms_cp":   { mdp: "cayo123", role: "Ministre de la Communication", perm: "communication" },
+            "el_presidente": { mdp: "admincp", role: "Président (Toutes Perms)", perm: "admin" }
+        };
+
+        let currentUser = null;
+        let currentActiveSection = "";
+
+        // --- FONCTION DE CONNEXION ---
+        function handleLogin() {
+            const userIn = document.getElementById("username").value.trim();
+            const passIn = document.getElementById("password").value;
+            const errorMsg = document.getElementById("errorMsg");
+
+            if (USERS[userIn] && USERS[userIn].mdp === passIn) {
+                // Connexion réussie
+                currentUser = USERS[userIn];
+                errorMsg.style.display = "none";
+                setupDashboard();
+            } else {
+                // Échec
+                errorMsg.style.display = "block";
+            }
+        }
+
+        // --- CONFIGURATION DU DASHBOARD SELON LES PERMS ---
+        function setupDashboard() {
+            // Masquer login, afficher dashboard
+            document.getElementById("loginPage").style.display = "none";
+            document.getElementById("dashboardPage").style.display = "grid";
+
+            // Afficher le rôle de l'utilisateur
+            document.getElementById("displayRole").innerText = currentUser.role;
+
+            // Gestion des accès aux boutons de la sidebar
+            const btnDefense = document.getElementById("btn-defense");
+            const btnJustice = document.getElementById("btn-justice");
+            const btnComms = document.getElementById("btn-communication");
+
+            // Si c'est l'admin, il voit tout. Sinon, on cache les sections des autres
+            if (currentUser.perm === "admin") {
+                btnDefense.style.display = "block";
+                btnJustice.style.display = "block";
+                btnComms.style.display = "block";
+                // L'admin commence sur la défense par défaut
+                switchSection("defense");
+            } else {
+                // Cache tout par défaut
+                btnDefense.style.display = "none";
+                btnJustice.style.display = "none";
+                btnComms.style.display = "none";
+
+                // Affiche uniquement sa section autorisée
+                const allowedBtn = document.getElementById(`btn-${currentUser.perm}`);
+                if (allowedBtn) {
+                    allowedBtn.style.display = "block";
+                    switchSection(currentUser.perm);
+                }
+            }
+        }
+
+        // --- CHANGEMENT DE CATÉGORIE / MINISTÈRE ---
+        function switchSection(sectionName) {
+            currentActiveSection = sectionName;
+
+            // Mettre à jour l'état visuel des boutons de la sidebar
+            document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
+            const activeBtn = document.getElementById(`btn-${sectionName}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            // Mettre à jour les titres de la page
+            const titles = {
+                defense: "Ministère de la Défense Nationale",
+                justice: "Ministère de la Justice et des Lois",
+                communication: "Ministère de la Communication et Propagande"
+            };
+            document.getElementById("currentSectionTitle").innerText = titles[sectionName];
+            document.getElementById("notesLabel").innerText = `Archives Secrètes : ${titles[sectionName]}`;
+
+            // Charger la note correspondante depuis le LocalStorage
+            const savedText = localStorage.getItem(`cayo_notes_${sectionName}`);
+            document.getElementById("govNotes").value = savedText ? savedText : "";
+        }
+
+        // --- SAUVEGARDE AUTOMATIQUE (LocalStorage) ---
+        let saveTimeout;
+        function saveNotes() {
+            const textContent = document.getElementById("govNotes").value;
+            
+            // Sauvegarde dans le localStorage sous la clé de la section actuelle
+            localStorage.setItem(`cayo_notes_${currentActiveSection}`, textContent);
+
+            // Petit effet visuel "Sauvegardé"
+            const status = document.getElementById("saveStatus");
+            status.style.opacity = "1";
+            
+            // Efface l'indicateur après 1.5 seconde d'inactivité
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                status.style.opacity = "0";
+            }, 1500);
+        }
+
+        // --- DÉCONNEXION ---
+        function handleLogout() {
+            currentUser = null;
+            currentActiveSection = "";
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("loginPage").style.display = "block";
+            document.getElementById("dashboardPage").style.display = "none";
+        }
+    </script>
+</body>
+</html>
