@@ -158,14 +158,14 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // ⚠️ REMPLACE CES LIGNES PAR TES PROPRES COORDONNÉES FIREBASE (Voir l'Étape 2 ci-dessous)
+        // Vos coordonnées Firebase configurées pour le site
         const firebaseConfig = {
-            apiKey: "TON_API_KEY",
-            authDomain: "TON_PROJECT.firebaseapp.com",
-            projectId: "TON_PROJECT_ID",
-            storageBucket: "TON_PROJECT.appspot.com",
-            messagingSenderId: "TON_SENDER_ID",
-            appId: "TON_APP_ID"
+            apiKey: "AIzaSyBh5JAtN3iux9CoHPh-r4iOqD10oBBg73c",
+            authDomain: "cayo-gov.firebaseapp.com",
+            projectId: "cayo-gov",
+            storageBucket: "cayo-gov.firebasestorage.app",
+            messagingSenderId: "762397521656",
+            appId: "1:762397521656:web:9bcee49fa25c6cdc932d0d"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -249,7 +249,6 @@
         function listenToNotesCloud(sectionName) {
             if (unsubscribeNotes) unsubscribeNotes();
             
-            // Écoute en direct les changements faits par n'importe quel joueur sur cette note
             unsubscribeNotes = onSnapshot(doc(db, "gouvernement", `notes_${sectionName}`), (docSnap) => {
                 if (docSnap.exists() && document.activeElement !== document.getElementById("govNotes")) {
                     document.getElementById("govNotes").value = docSnap.data().text || "";
@@ -279,7 +278,7 @@
                 const textContent = document.getElementById("govNotes").value;
                 await setDoc(doc(db, "gouvernement", `notes_${currentActiveSection}`), { text: textContent }, { merge: true });
                 showSaveStatus();
-            }, 500); // Sauvegarde 500ms après l'arrêt de la frappe
+            }, 500);
         }
 
         let tablesTimeout;
