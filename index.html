@@ -241,6 +241,8 @@
                 if (unsubscribeTables) { unsubscribeTables(); unsubscribeTables = null; }
             }
 
+            // Vider temporairement la zone de texte pendant le changement pour éviter les flashs visuels
+            document.getElementById("govNotes").value = "Chargement des dossiers...";
             listenToNotesCloud(sectionName);
         }
 
@@ -249,9 +251,14 @@
         function listenToNotesCloud(sectionName) {
             if (unsubscribeNotes) unsubscribeNotes();
             
+            // LA SÉCURITÉ EST ICI : On écoute et on n'applique que SI le joueur est toujours sur la même section
             unsubscribeNotes = onSnapshot(doc(db, "gouvernement", `notes_${sectionName}`), (docSnap) => {
-                if (docSnap.exists() && document.activeElement !== document.getElementById("govNotes")) {
-                    document.getElementById("govNotes").value = docSnap.data().text || "";
+                if (currentActiveSection === sectionName) {
+                    if (docSnap.exists() && document.activeElement !== document.getElementById("govNotes")) {
+                        document.getElementById("govNotes").value = docSnap.data().text || "";
+                    } else if (!docSnap.exists() && document.activeElement !== document.getElementById("govNotes")) {
+                        document.getElementById("govNotes").value = ""; // Si le document n'existe pas encore dans Firebase
+                    }
                 }
             });
         }
@@ -260,7 +267,7 @@
             if (unsubscribeTables) unsubscribeTables();
 
             unsubscribeTables = onSnapshot(doc(db, "gouvernement", "defense_tables"), (docSnap) => {
-                if (docSnap.exists()) {
+                if (docSnap.exists() && currentActiveSection === "defense") {
                     const data = docSnap.data();
                     if (document.activeElement?.closest('table') === null) {
                         if (data.hierarchy) document.getElementById("tableHierarchy").innerHTML = data.hierarchy;
@@ -274,22 +281,25 @@
         let notesTimeout;
         window.triggerNotesCloudSave = function() {
             clearTimeout(notesTimeout);
+            const sectionAEnregistrer = currentActiveSection; // Bloque la section au moment de la frappe
             notesTimeout = setTimeout(async () => {
                 const textContent = document.getElementById("govNotes").value;
-                await setDoc(doc(db, "gouvernement", `notes_${currentActiveSection}`), { text: textContent }, { merge: true });
+                await setDoc(doc(db, "gouvernement", `notes_${sectionAEnregistrer}`), { text: textContent }, { merge: true });
                 showSaveStatus();
-            }, 500);
+            }, 400);
         }
 
         let tablesTimeout;
         window.triggerTableCloudSave = function() {
             clearTimeout(tablesTimeout);
             tablesTimeout = setTimeout(async () => {
-                const hContent = document.getElementById("tableHierarchy").innerHTML;
-                const wContent = document.getElementById("tableWeapons").innerHTML;
-                await setDoc(doc(db, "gouvernement", "defense_tables"), { hierarchy: hContent, weapons: wContent }, { merge: true });
-                showSaveStatus();
-            }, 500);
+                if (currentActiveSection === "defense") {
+                    const hContent = document.getElementById("tableHierarchy").innerHTML;
+                    const wContent = document.getElementById("tableWeapons").innerHTML;
+                    await setDoc(doc(db, "gouvernement", "defense_tables"), { hierarchy: hContent, weapons: wContent }, { merge: true });
+                    showSaveStatus();
+                }
+            }, 400);
         }
 
         // --- MANIPULATION DES TABLEAUX ---
