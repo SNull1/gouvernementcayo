@@ -4,20 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gouvernement de Cayo Perico - Terminal Sécurisé</title>
-    <!-- Importation de polices modernes et agressives -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Quantico:wght@400;700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-main: #0b0f14;       /* Fond sombre militaire */
-            --bg-card: #12181f;       /* Fond des blocs */
-            --bg-input: #1a222d;      /* Fond des champs */
-            --accent-gold: #e5bd43;   /* Or gouvernemental */
+            --bg-main: #0b0f14;
+            --bg-card: #12181f;
+            --bg-input: #1a222d;
+            --accent-gold: #e5bd43;
             --accent-gold-dim: rgba(229, 189, 67, 0.15);
-            --text-main: #f0f4f8;     /* Texte clair */
-            --text-muted: #6c7d93;    /* Texte secondaire */
-            --border-color: #232d3a;  /* Bordures discrètes */
-            --defense-neon: #3bf584;  /* Vert cyber-défense */
+            --text-main: #f0f4f8;
+            --text-muted: #6c7d93;
+            --border-color: #232d3a;
+            --defense-neon: #3bf584;
             --error-red: #ff5252;
         }
 
@@ -40,7 +39,7 @@
             background-image: radial-gradient(circle at 50% 50%, #161f2b 0%, var(--bg-main) 70%);
         }
 
-        /* --- ÉCRAN DE CONNEXION --- */
+        /* --- CONNEXION --- */
         .login-container {
             background: var(--bg-card);
             padding: 45px 40px;
@@ -59,7 +58,6 @@
             font-weight: 700;
             letter-spacing: 4px;
             color: var(--text-main);
-            text-shadow: 0 0 10px rgba(255,255,255,0.1);
         }
 
         .gov-subtitle {
@@ -120,7 +118,6 @@
         button.glow-btn:hover {
             background: #fff;
             box-shadow: 0 0 20px rgba(255,255,255,0.3);
-            transform: translateY(-1px);
         }
 
         .error-msg {
@@ -131,7 +128,7 @@
             display: none;
         }
 
-        /* --- DASHBOARD INTÉGRAL --- */
+        /* --- DASHBOARD --- */
         .dashboard {
             display: none;
             width: 96vw;
@@ -145,7 +142,6 @@
             animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Barre Latérale (Sidebar) */
         .sidebar {
             background: #0d131a;
             padding: 35px 25px;
@@ -166,7 +162,6 @@
             font-size: 10px;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .user-role {
@@ -190,11 +185,7 @@
             border-radius: 8px;
         }
 
-        .nav-btn:hover {
-            color: var(--text-main);
-            background: rgba(255,255,255,0.03);
-        }
-
+        .nav-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.03); }
         .nav-btn.active {
             background: var(--accent-gold-dim);
             color: var(--accent-gold);
@@ -212,12 +203,8 @@
             cursor: pointer;
         }
 
-        .logout-btn:hover {
-            background: #3a1c1c;
-            color: #fff;
-        }
+        .logout-btn:hover { background: #3a1c1c; color: #fff; }
 
-        /* Zone Principale de Contenu */
         .main-content {
             padding: 45px;
             display: flex;
@@ -238,7 +225,6 @@
             font-family: 'Quantico', sans-serif;
             font-size: 26px;
             font-weight: 700;
-            letter-spacing: 1px;
             text-transform: uppercase;
         }
 
@@ -252,7 +238,7 @@
             border: 1px solid rgba(59, 245, 132, 0.2);
         }
 
-        /* --- TABLEAUX MODÈLE SHEETS MODERNES --- */
+        /* --- TABLEAUX --- */
         .defense-tables-wrapper {
             display: none;
             margin-bottom: 25px;
@@ -265,7 +251,6 @@
             text-transform: uppercase;
             color: var(--text-main);
             margin: 25px 0 12px 0;
-            letter-spacing: 1px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -290,7 +275,6 @@
             font-weight: 600;
             font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 1px;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -301,22 +285,37 @@
             color: var(--text-main);
         }
 
-        .gov-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .gov-table td[contenteditable="true"]:hover {
-            background-color: var(--bg-input);
-            cursor: cell;
-        }
-
+        .gov-table tr:last-child td { border-bottom: none; }
+        .gov-table td[contenteditable="true"]:hover { background-color: var(--bg-input); cursor: cell; }
         .gov-table td[contenteditable="true"]:focus {
             outline: none;
             background-color: var(--bg-input);
             box-shadow: inset 0 0 0 2px var(--accent-gold);
         }
 
-        /* Boutons d'action des lignes */
+        /* Bouton d'action de suppression */
+        .td-action {
+            text-align: center;
+            width: 60px;
+        }
+
+        .delete-row-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .delete-row-btn:hover {
+            color: var(--error-red);
+            background: rgba(255, 82, 82, 0.15);
+        }
+
         .action-row-btn {
             background: var(--bg-input);
             color: var(--text-main);
@@ -326,7 +325,6 @@
             font-size: 12px;
             font-weight: 500;
             cursor: pointer;
-            margin-left: 8px;
         }
 
         .action-row-btn:hover {
@@ -334,7 +332,7 @@
             background: #222d3a;
         }
 
-        /* --- ZONE DE NOTES TEXTE --- */
+        /* --- ZONE DE NOTES --- */
         .notes-container {
             flex-grow: 1;
             display: flex;
@@ -348,13 +346,12 @@
             margin-bottom: 12px;
             text-transform: uppercase;
             font-size: 14px;
-            letter-spacing: 1px;
         }
 
         .gov-textarea {
             width: 100%;
             flex-grow: 1;
-            min-height: 280px;
+            min-height: 250px;
             padding: 20px;
             background: var(--bg-input);
             border: 1px solid var(--border-color);
@@ -366,20 +363,14 @@
             resize: vertical;
         }
 
-        .gov-textarea:focus {
-            outline: none;
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 15px rgba(229, 189, 67, 0.1);
-        }
+        .gov-textarea:focus { outline: none; border-color: var(--accent-gold); }
 
-        /* Barre de statut de sauvegarde */
         .save-status {
             margin-top: 12px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
             color: var(--defense-neon);
             text-transform: uppercase;
-            letter-spacing: 1px;
             opacity: 0;
             transition: opacity 0.3s;
             display: flex;
@@ -387,93 +378,65 @@
             justify-content: flex-end;
         }
         
-        .save-status::before {
-            content: "●";
-            margin-right: 6px;
-            animation: blink 1s infinite;
-        }
+        .save-status::before { content: "●"; margin-right: 6px; animation: blink 1s infinite; }
 
-        /* --- ANIMATIONS --- */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes scaleUp {
-            from { opacity: 0; transform: scale(0.97); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scaleUp { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+        @keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <!-- CONNEXION -->
     <div class="login-container" id="loginPage">
-        <div class="göv-logo">CAYO PERICO GOUVERNEMENT</div>
+        <div class="göv-logo">CAYO PERICO</div>
         <div class="gov-subtitle">Réseau Central Gouvernemental</div>
-        
         <div class="input-group">
             <label for="username">Identifiant Officiel</label>
             <input type="text" id="username" autocomplete="off" placeholder="Identifiant">
         </div>
-        
         <div class="input-group">
             <label for="password">Clé d'accès cryptee</label>
             <input type="password" id="password" placeholder="••••••••">
         </div>
-        
         <button class="glow-btn" onclick="handleLogin()">Connexion au terminal</button>
         <div class="error-msg" id="errorMsg">ACCÈS REFUSÉ : Identifiants incorrects.</div>
     </div>
 
-    <!-- DASHBOARD -->
     <div class="dashboard" id="dashboardPage">
-        <!-- Barre latérale -->
         <div class="sidebar">
             <div>
                 <div class="user-info">
                     <div class="session-title">Session d'autorité active</div>
                     <div class="user-role" id="displayRole">Chargement...</div>
                 </div>
-                
                 <nav id="navMenu">
-                    <button class="nav-btn" id="btn-defense" onclick="switchSection('defense')">Ministre de la Défense</button>
-                    <button class="nav-btn" id="btn-justice" onclick="switchSection('justice')">Ministre de la Justice</button>
-                    <button class="nav-btn" id="btn-communication" onclick="switchSection('communication')">Ministre de la Communication</button>
+                    <button class="nav-btn" id="btn-defense" onclick="switchSection('defense')">Général - Défense</button>
+                    <button class="nav-btn" id="btn-justice" onclick="switchSection('justice')">Magistrature - Justice</button>
+                    <button class="nav-btn" id="btn-communication" onclick="switchSection('communication')">Médias & Propagande</button>
                 </nav>
             </div>
-            
             <button class="logout-btn" onclick="handleLogout()">Terminer la session</button>
         </div>
 
-        <!-- Contenu Principal -->
         <div class="main-content">
             <div class="section-header">
-                <div>
-                    <h1 class="section-title" id="currentSectionTitle">Ministère</h1>
-                </div>
+                <div><h1 class="section-title" id="currentSectionTitle">Ministère</h1></div>
                 <div class="section-badge" id="sectionBadge">RÉSEAU CLOUD SÉCURISÉ</div>
             </div>
 
-            <!-- TABLEAUX DÉFENSE EXCLUSIFS -->
             <div class="defense-tables-wrapper" id="defenseTables">
                 
                 <div class="table-title">
                     <span>Hiérarchie et Haut Commandement</span>
-                    <div>
-                        <button class="action-row-btn" onclick="addRow('tableHierarchy')">+ Ajouter un Rang</button>
-                        <button class="action-row-btn" onclick="removeRow('tableHierarchy')">- Supprimer</button>
-                    </div>
+                    <button class="action-row-btn" onclick="addRow('tableHierarchy')">+ Ajouter une Ligne</button>
                 </div>
                 <table class="gov-table">
                     <thead>
                         <tr>
                             <th style="width: 25%;">Grade / Rang</th>
                             <th style="width: 35%;">Nom de l'Officier</th>
-                            <th style="width: 40%;">Affectation opérationnelle</th>
+                            <th style="width: 35%;">Affectation opérationnelle</th>
+                            <th class="td-action"></th>
                         </tr>
                     </thead>
                     <tbody id="tableHierarchy" oninput="triggerTableCloudSave()"></tbody>
@@ -481,10 +444,7 @@
 
                 <div class="table-title">
                     <span>Registre Logistique de l'Armement</span>
-                    <div>
-                        <button class="action-row-btn" onclick="addRow('tableWeapons')">+ Ajouter un Matériel</button>
-                        <button class="action-row-btn" onclick="removeRow('tableWeapons')">- Supprimer</button>
-                    </div>
+                    <button class="action-row-btn" onclick="addRow('tableWeapons')">+ Ajouter un Matériel</button>
                 </div>
                 <table class="gov-table">
                     <thead>
@@ -492,14 +452,14 @@
                             <th style="width: 35%;">Modèle de l'Équipement</th>
                             <th style="width: 15%;">Unités</th>
                             <th style="width: 25%;">Numéro d'immatriculation / Lot</th>
-                            <th style="width: 25%;">Statut d'attribution</th>
+                            <th style="width: 20%;">Statut d'attribution</th>
+                            <th class="td-action"></th>
                         </tr>
                     </thead>
                     <tbody id="tableWeapons" oninput="triggerTableCloudSave()"></tbody>
                 </table>
             </div>
 
-            <!-- NOTES TEXTUELLES -->
             <div class="notes-container">
                 <label class="notes-label" id="notesLabel">Directives et protocoles officiels</label>
                 <textarea class="gov-textarea" id="govNotes" oninput="triggerNotesCloudSave()" placeholder="Initialisation de la liaison satellite..."></textarea>
@@ -508,12 +468,10 @@
         </div>
     </div>
 
-    <!-- ================= SCRIPTS & CLOUD CONFIG ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Coordonnées Firebase configurées pour Cayo-Gov
         const firebaseConfig = {
             apiKey: "AIzaSyBh5JAtN3iux9CoHPh-r4iOqD10oBBg73c",
             authDomain: "cayo-gov.firebaseapp.com",
@@ -526,7 +484,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // --- COMPTES ---
         const USERS = {
             "defense": { mdp: "1987", role: "Ministre de la Défense", perm: "defense" },
             "justice": { mdp: "5129", role: "Ministre de la Justice", perm: "justice" },
@@ -602,7 +559,6 @@
 
         function listenToNotesCloud(sectionName) {
             if (unsubscribeNotes) unsubscribeNotes();
-            
             unsubscribeNotes = onSnapshot(doc(db, "gouvernement", `notes_${sectionName}`), (docSnap) => {
                 if (currentActiveSection === sectionName) {
                     if (docSnap.exists() && document.activeElement !== document.getElementById("govNotes")) {
@@ -616,14 +572,50 @@
 
         function listenToTablesCloud() {
             if (unsubscribeTables) unsubscribeTables();
-
             unsubscribeTables = onSnapshot(doc(db, "gouvernement", "defense_tables"), (docSnap) => {
                 if (docSnap.exists() && currentActiveSection === "defense") {
                     const data = docSnap.data();
                     if (document.activeElement?.closest('table') === null) {
-                        if (data.hierarchy) document.getElementById("tableHierarchy").innerHTML = data.hierarchy;
-                        if (data.weapons) document.getElementById("tableWeapons").innerHTML = data.weapons;
+                        
+                        // Injection temporaire pour vérifier et réparer les anciennes lignes stockées
+                        let targetHierarchy = document.getElementById("tableHierarchy");
+                        let targetWeapons = document.getElementById("tableWeapons");
+                        
+                        if (data.hierarchy) targetHierarchy.innerHTML = data.hierarchy;
+                        if (data.weapons) targetWeapons.innerHTML = data.weapons;
+                        
+                        // SÉCURITÉ DE MISE À JOUR AUTOMATIQUE DES LIGNES
+                        repairMissingButtons(targetHierarchy, 4); // 4 colonnes au total pour la hierarchie
+                        repairMissingButtons(targetWeapons, 5);   // 5 colonnes au total pour l'armement
+                        
+                        attachDeleteEvents();
                     }
+                }
+            });
+        }
+
+        // Fonction magique qui analyse le code chargé de Firebase pour injecter la croix si elle est absente
+        function repairMissingButtons(tbody, expectedCells) {
+            Array.from(tbody.rows).forEach(row => {
+                // Si la ligne n'a pas le bon nombre de colonnes ou s'il manque la classe d'action, on répare
+                if (row.cells.length < expectedCells || !row.querySelector('.td-action')) {
+                    // Supprime l'ancienne colonne d'action cassée s'il y en avait une défectueuse
+                    const existingAction = row.querySelector('.td-action');
+                    if (existingAction) existingAction.remove();
+                    
+                    // Ajuste le nombre de cellules de texte éditables si besoin
+                    while (row.cells.length < (expectedCells - 1)) {
+                        let newCell = row.insertCell();
+                        newCell.contentEditable = "true";
+                    }
+                    
+                    // Injecte la case d'action propre avec son bouton fonctionnel
+                    const actionCell = row.insertCell();
+                    actionCell.className = "td-action";
+                    actionCell.innerHTML = '<button class="delete-row-btn">✕</button>';
+                    
+                    // Force la sauvegarde automatique du tableau réparé dans Firebase
+                    triggerTableCloudSave();
                 }
             });
         }
@@ -654,20 +646,32 @@
 
         window.addRow = function(tableId) {
             const tbody = document.getElementById(tableId);
-            const colCount = tbody.closest('table').querySelectorAll('thead th').length;
+            const colCount = tbody.closest('table').querySelectorAll('thead th').length - 1;
+            
             let newRow = '<tr>';
-            for (let i = 0; i < colCount; i++) { newRow += '<td contenteditable="true"></td>'; }
+            for (let i = 0; i < colCount; i++) { 
+                newRow += '<td contenteditable="true"></td>'; 
+            }
+            newRow += '<td class="td-action"><button class="delete-row-btn">✕</button></td>';
             newRow += '</tr>';
+            
             tbody.insertAdjacentHTML('beforeend', newRow);
             triggerTableCloudSave();
-        }
+            attachDeleteEvents();
+        };
 
-        window.removeRow = function(tableId) {
-            const tbody = document.getElementById(tableId);
-            if (tbody.lastElementChild) {
-                tbody.removeChild(tbody.lastElementChild);
+        window.removeSelectedRow = function(buttonInstance) {
+            const row = buttonInstance.closest('tr');
+            if (row) {
+                row.remove();
                 triggerTableCloudSave();
             }
+        };
+
+        function attachDeleteEvents() {
+            document.querySelectorAll('.delete-row-btn').forEach(btn => {
+                btn.onclick = function() { window.removeSelectedRow(this); };
+            });
         }
 
         function showSaveStatus() {
