@@ -299,11 +299,12 @@
         }
         .add-folder-btn:hover { background: var(--accent-gold); color: #000; }
 
-        /* --- ZONE DE NOTES DES DOSSIERS --- */
+        /* --- ZONE DE NOTES DES DOSSIERS (TAILLE AUTOMATIQUE SANS SCROLL INTERNE) --- */
         .notes-container { display: flex; flex-direction: column; margin-bottom: 25px; }
         .gov-textarea {
             width: 100%;
             min-height: 200px;
+            height: auto; /* Permet l'ajustement automatique de la hauteur */
             padding: 20px;
             background: var(--bg-input);
             border: 1px solid var(--border-color);
@@ -312,7 +313,8 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 14px;
             line-height: 1.7;
-            resize: vertical;
+            resize: none; /* Désactivé car géré par le script de façon fluide */
+            overflow-y: hidden; /* Supprime la barre de défilement interne */
         }
         .gov-textarea:focus { outline: none; border-color: var(--accent-gold); }
 
@@ -363,7 +365,7 @@
         }
         .delete-img-btn:hover { background: var(--error-red); }
 
-        /* --- TABLEAUX DEFENSE (MAINTENANT TOUT EN BAS) --- */
+        /* --- TABLEAUX DEFENSE --- */
         .defense-tables-wrapper { display: none; margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--border-color); }
         .table-title {
             font-family: 'Quantico', sans-serif;
@@ -390,7 +392,6 @@
 
         .gov-table th { background-color: #161e27; color: var(--text-muted); text-align: left; padding: 14px; font-weight: 600; font-size: 11px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); }
         
-        /* drag & drop styling */
         .gov-table tbody tr { cursor: grab; }
         .gov-table tbody tr:active { cursor: grabbing; background-color: #1a2430 !important; }
         .gov-table tbody tr.dragging { opacity: 0.5; background: #1a222d; }
@@ -468,7 +469,7 @@
                 <div class="section-badge">RÉSEAU SÉCURISÉ CLOUD</div>
             </div>
 
-            <!-- 1. NOTES DE BASE DE LA CATÉGORIE (TOUT EN HAUT) -->
+            <!-- 1. NOTES DE BASE DE LA CATÉGORIE -->
             <div class="base-notes-container">
                 <label class="base-notes-label" id="baseNotesLabel">Directives Générales Fixes</label>
                 <textarea class="gov-textarea-base" id="govBaseNotes" oninput="triggerBaseNotesCloudSave()" placeholder="Notes fondamentales du ministère..."></textarea>
@@ -483,7 +484,7 @@
 
             <!-- 3. ZONE DE NOTES LIÉE AU DOSSIER UNIQUE SÉLECTIONNÉ -->
             <div class="notes-container">
-                <textarea class="gov-textarea" id="govNotes" oninput="triggerNotesCloudSave()" placeholder="Sélectionnez ou créez un sous-dossier..."></textarea>
+                <textarea class="gov-textarea" id="govNotes" oninput="handleNotesInput()" placeholder="Sélectionnez ou créez un sous-dossier..."></textarea>
             </div>
 
             <!-- 4. BANQUE D'IMAGES LIÉE AU DOSSIER -->
@@ -495,7 +496,7 @@
                 <div class="gallery-grid" id="galleryGrid"></div>
             </div>
 
-            <!-- 5. TABLEAUX DÉFENSE (POSITIONNÉS TOUT EN BAS DÉSORMAIS) -->
+            <!-- 5. TABLEAUX DÉFENSE (TOUT EN BAS) -->
             <div class="defense-tables-wrapper" id="defenseTables">
                 <div class="table-title">
                     <span>Hiérarchie et Haut Commandement (Lignes déplaçables)</span>
@@ -570,6 +571,18 @@
         let unsubscribeNotes = null;
         let unsubscribeTables = null;
 
+        // Fonction pour ajuster dynamiquement la taille de la boîte
+        function autoResizeTextarea() {
+            const textarea = document.getElementById("govNotes");
+            textarea.style.height = "auto";
+            textarea.style.height = textarea.scrollHeight + "px";
+        }
+
+        window.handleNotesInput = function() {
+            autoResizeTextarea();
+            triggerNotesCloudSave();
+        }
+
         window.handleLogin = function() {
             const userIn = document.getElementById("username").value.trim();
             const passIn = document.getElementById("password").value;
@@ -633,13 +646,13 @@
 
             document.getElementById("govBaseNotes").value = "Chargement des directives...";
             document.getElementById("govNotes").value = "Veuillez sélectionner un sous-dossier.";
+            document.getElementById("govNotes").style.height = "200px"; // Hauteur par défaut
             document.getElementById("galleryGrid").innerHTML = "";
 
             listenToBaseNotesCloud(sectionName);
             listenToFoldersStructure(sectionName);
         }
 
-        // --- NOTES DE BASE ---
         function listenToBaseNotesCloud(sectionName) {
             if (unsubscribeBaseNotes) unsubscribeBaseNotes();
             unsubscribeBaseNotes = onSnapshot(doc(db, "gouvernement", `notes_${sectionName}`), (docSnap) => {
@@ -664,7 +677,6 @@
             }, 400);
         }
 
-        // --- DOSSIERS STRUCTURE ---
         function listenToFoldersStructure(sectionName) {
             if (unsubscribeFolders) unsubscribeFolders();
             unsubscribeFolders = onSnapshot(doc(db, "structure_dossiers", `structure_${sectionName}`), (docSnap) => {
@@ -696,6 +708,7 @@
                 } else {
                     foldersList = {};
                     document.getElementById("govNotes").value = "Aucun sous-dossier annexe créé. Cliquez sur '+ Nouveau Dossier'.";
+                    document.getElementById("govNotes").style.height = "200px";
                     document.getElementById("galleryGrid").innerHTML = "";
                 }
             });
@@ -732,6 +745,7 @@
             if (currentActiveFolderId === id) {
                 currentActiveFolderId = "";
                 document.getElementById("govNotes").value = "Sélectionnez un dossier.";
+                document.getElementById("govNotes").style.height = "200px";
                 document.getElementById("galleryGrid").innerHTML = "";
             }
         }
@@ -751,6 +765,9 @@
                     } else if (!docSnap.exists() && document.activeElement !== document.getElementById("govNotes")) {
                         document.getElementById("govNotes").value = "";
                     }
+
+                    // On redimensionne tout de suite après avoir chargé les données de Firebase
+                    autoResizeTextarea();
 
                     const grid = document.getElementById("galleryGrid");
                     grid.innerHTML = "";
@@ -800,7 +817,7 @@
             showSaveStatus();
         }
 
-        // --- TABLEAUX DE DEFENSE AVEC SYSTEME DRAG & DROP (GLISSER-DEPOSER) ---
+        // --- TABLEAUX DE DEFENSE ---
         function listenToTablesCloud() {
             if (unsubscribeTables) unsubscribeTables();
             unsubscribeTables = onSnapshot(doc(db, "gouvernement", "defense_tables"), (docSnap) => {
@@ -840,7 +857,6 @@
             });
         }
 
-        // Algorithme natif HTML5 pour rendre les lignes de tableaux réorganisables
         function makeRowsDraggable(tbody) {
             Array.from(tbody.rows).forEach(row => {
                 row.draggable = true;
@@ -852,7 +868,7 @@
 
                 row.ondragend = () => {
                     row.classList.remove('dragging');
-                    triggerTableCloudSave(); // Sauvegarde automatique dès qu'on lâche la ligne
+                    triggerTableCloudSave();
                 };
 
                 row.ondragover = (e) => {
