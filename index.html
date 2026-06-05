@@ -95,11 +95,7 @@
             font-size: 15px;
         }
 
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 12px var(--accent-gold-dim);
-        }
+        .input-group input:focus { outline: none; border-color: var(--accent-gold); box-shadow: 0 0 12px var(--accent-gold-dim); }
 
         button.glow-btn {
             width: 100%;
@@ -115,18 +111,8 @@
             letter-spacing: 1px;
         }
 
-        button.glow-btn:hover {
-            background: #fff;
-            box-shadow: 0 0 20px rgba(255,255,255,0.3);
-        }
-
-        .error-msg {
-            color: var(--error-red);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            margin-top: 20px;
-            display: none;
-        }
+        button.glow-btn:hover { background: #fff; box-shadow: 0 0 20px rgba(255,255,255,0.3); }
+        .error-msg { color: var(--error-red); font-family: 'JetBrains Mono', monospace; font-size: 12px; margin-top: 20px; display: none; }
 
         /* --- DASHBOARD --- */
         .dashboard {
@@ -152,8 +138,8 @@
         }
 
         .user-info {
-            padding-bottom: 25px;
-            margin-bottom: 25px;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -164,11 +150,15 @@
             text-transform: uppercase;
         }
 
-        .user-role {
-            color: var(--text-main);
-            font-size: 20px;
-            font-weight: 700;
-            margin-top: 6px;
+        .user-role { color: var(--text-main); font-size: 18px; font-weight: 700; margin-top: 6px; }
+
+        .sidebar-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
         }
 
         .nav-btn {
@@ -176,13 +166,13 @@
             border: 1px solid transparent;
             color: var(--text-muted);
             text-align: left;
-            padding: 14px 18px;
-            margin-bottom: 12px;
+            padding: 12px 15px;
+            margin-bottom: 8px;
             width: 100%;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
         .nav-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.03); }
@@ -206,7 +196,7 @@
         .logout-btn:hover { background: #3a1c1c; color: #fff; }
 
         .main-content {
-            padding: 45px;
+            padding: 40px;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
@@ -215,19 +205,13 @@
         .section-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
-        .section-title {
-            font-family: 'Quantico', sans-serif;
-            font-size: 26px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
+        .section-title { font-family: 'Quantico', sans-serif; font-size: 24px; font-weight: 700; text-transform: uppercase; }
         .section-badge {
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
@@ -238,15 +222,132 @@
             border: 1px solid rgba(59, 245, 132, 0.2);
         }
 
-        /* --- TABLEAUX --- */
+        /* --- NOTES DE BASE (FIXES ET PRINCIPALES) --- */
+        .base-notes-container {
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .base-notes-label {
+            font-family: 'Quantico', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .gov-textarea-base {
+            width: 100%;
+            min-height: 140px;
+            max-height: 200px;
+            padding: 15px;
+            background: #151c24;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            resize: vertical;
+        }
+        .gov-textarea-base:focus { outline: none; border-color: var(--accent-gold); }
+
+        /* --- SYSTÈME DE SOU-DOSSIERS (ONGLETS DYNAMIQUES) --- */
+        .folder-system-title {
+            font-family: 'Quantico', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+
+        .folder-system-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #161e27;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+        }
+
+        .folder-tabs-container {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+        }
+
+        .folder-tab {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .folder-tab.active {
+            background: var(--bg-input);
+            color: var(--text-main);
+            border-color: var(--accent-gold);
+        }
+
+        .folder-action-btn { background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 11px; }
+        .folder-action-btn:hover { color: var(--error-red); }
+
+        .add-folder-btn {
+            background: var(--accent-gold-dim);
+            color: var(--accent-gold);
+            border: 1px dashed var(--accent-gold);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .add-folder-btn:hover { background: var(--accent-gold); color: #000; }
+
+        /* --- ZONE DE NOTES DES DOSSIERS --- */
+        .notes-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 30px;
+        }
+
+        .gov-textarea {
+            width: 100%;
+            min-height: 220px;
+            padding: 20px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 0 0 8px 8px;
+            color: #e0e6ed;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            resize: vertical;
+        }
+        .gov-textarea:focus { outline: none; border-color: var(--accent-gold); }
+
+        /* --- TABLEAUX DEFENSE --- */
         .defense-tables-wrapper {
             display: none;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         .table-title {
             font-family: 'Quantico', sans-serif;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             text-transform: uppercase;
             color: var(--text-main);
@@ -278,92 +379,15 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        .gov-table td {
-            padding: 12px 14px;
-            border-bottom: 1px solid var(--border-color);
-            background-color: var(--bg-card);
-            color: var(--text-main);
-        }
-
+        .gov-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-color); background-color: var(--bg-card); color: var(--text-main); }
         .gov-table tr:last-child td { border-bottom: none; }
         .gov-table td[contenteditable="true"]:hover { background-color: var(--bg-input); cursor: cell; }
-        .gov-table td[contenteditable="true"]:focus {
-            outline: none;
-            background-color: var(--bg-input);
-            box-shadow: inset 0 0 0 2px var(--accent-gold);
-        }
+        .gov-table td[contenteditable="true"]:focus { outline: none; background-color: var(--bg-input); box-shadow: inset 0 0 0 2px var(--accent-gold); }
 
-        /* Bouton d'action de suppression */
-        .td-action {
-            text-align: center;
-            width: 60px;
-        }
-
-        .delete-row-btn {
-            background: transparent;
-            color: var(--text-muted);
-            border: none;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: bold;
-            padding: 4px 10px;
-            border-radius: 4px;
-            display: inline-block;
-        }
-
-        .delete-row-btn:hover {
-            color: var(--error-red);
-            background: rgba(255, 82, 82, 0.15);
-        }
-
-        .action-row-btn {
-            background: var(--bg-input);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-        }
-
-        .action-row-btn:hover {
-            border-color: var(--text-muted);
-            background: #222d3a;
-        }
-
-        /* --- ZONE DE NOTES --- */
-        .notes-container {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            margin-top: 15px;
-        }
-
-        .notes-label {
-            font-family: 'Quantico', sans-serif;
-            font-weight: 700;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            font-size: 14px;
-        }
-
-        .gov-textarea {
-            width: 100%;
-            flex-grow: 1;
-            min-height: 250px;
-            padding: 20px;
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: #e0e6ed;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            line-height: 1.7;
-            resize: vertical;
-        }
-
-        .gov-textarea:focus { outline: none; border-color: var(--accent-gold); }
+        .td-action { text-align: center; width: 60px; }
+        .delete-row-btn { background: transparent; color: var(--text-muted); border: none; cursor: pointer; font-size: 15px; font-weight: bold; padding: 4px 10px; border-radius: 4px; }
+        .delete-row-btn:hover { color: var(--error-red); background: rgba(255, 82, 82, 0.15); }
+        .action-row-btn { background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
 
         .save-status {
             margin-top: 12px;
@@ -377,7 +401,6 @@
             align-items: center;
             justify-content: flex-end;
         }
-        
         .save-status::before { content: "●"; margin-right: 6px; animation: blink 1s infinite; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -387,6 +410,7 @@
 </head>
 <body>
 
+    <!-- CONNEXION -->
     <div class="login-container" id="loginPage">
         <div class="göv-logo">CAYO PERICO</div>
         <div class="gov-subtitle">Réseau Central Gouvernemental</div>
@@ -402,17 +426,21 @@
         <div class="error-msg" id="errorMsg">ACCÈS REFUSÉ : Identifiants incorrects.</div>
     </div>
 
+    <!-- DASHBOARD -->
     <div class="dashboard" id="dashboardPage">
         <div class="sidebar">
             <div>
                 <div class="user-info">
-                    <div class="session-title">Session d'autorité active</div>
+                    <div class="session-title">Session active</div>
                     <div class="user-role" id="displayRole">Chargement...</div>
                 </div>
+                
+                <div class="sidebar-label">Catégories</div>
                 <nav id="navMenu">
+                    <button class="nav-btn" id="btn-gouvernement" onclick="switchSection('gouvernement')">Gouvernement</button>
                     <button class="nav-btn" id="btn-defense" onclick="switchSection('defense')">Ministre de la Défense</button>
                     <button class="nav-btn" id="btn-justice" onclick="switchSection('justice')">Ministre de la Justice</button>
-                    <button class="nav-btn" id="btn-communication" onclick="switchSection('communication')">Ministre de la Communation</button>
+                    <button class="nav-btn" id="btn-communication" onclick="switchSection('communication')">Ministre de la Communication</button>
                 </nav>
             </div>
             <button class="logout-btn" onclick="handleLogout()">Terminer la session</button>
@@ -421,11 +449,17 @@
         <div class="main-content">
             <div class="section-header">
                 <div><h1 class="section-title" id="currentSectionTitle">Ministère</h1></div>
-                <div class="section-badge" id="sectionBadge">RÉSEAU CLOUD SÉCURISÉ</div>
+                <div class="section-badge">RÉSEAU SÉCURISÉ CLOUD</div>
             </div>
 
+            <!-- NOTES DE BASE DE LA CATÉGORIE (TOUT EN HAUT) -->
+            <div class="base-notes-container">
+                <label class="base-notes-label" id="baseNotesLabel">Directives Générales Fixes</label>
+                <textarea class="gov-textarea-base" id="govBaseNotes" oninput="triggerBaseNotesCloudSave()" placeholder="Notes fondamentales du ministère..."></textarea>
+            </div>
+
+            <!-- TABLEAUX DÉFENSE (UNIQUEMENT SÉLECTIONNÉ DANS LA DÉFENSE) -->
             <div class="defense-tables-wrapper" id="defenseTables">
-                
                 <div class="table-title">
                     <span>Hiérarchie et Haut Commandement</span>
                     <button class="action-row-btn" onclick="addRow('tableHierarchy')">+ Ajouter une Ligne</button>
@@ -460,14 +494,22 @@
                 </table>
             </div>
 
+            <!-- SYSTÈME DE DOSSIERS EN SUB-ONGLETS -->
+            <div class="folder-system-title">Dossiers archivés et annexes</div>
+            <div class="folder-system-bar">
+                <div class="folder-tabs-container" id="folderTabs"></div>
+                <button class="add-folder-btn" onclick="createNewFolder()">+ Nouveau Dossier</button>
+            </div>
+
+            <!-- ZONE DE NOTES LIÉE AU DOSSIER UNIQUE SÉLECTIONNÉ -->
             <div class="notes-container">
-                <label class="notes-label" id="notesLabel">Directives et protocoles officiels</label>
-                <textarea class="gov-textarea" id="govNotes" oninput="triggerNotesCloudSave()" placeholder="Initialisation de la liaison satellite..."></textarea>
-                <div class="save-status" id="saveStatus">Liaison chiffrée établie — Données synchronisées</div>
+                <textarea class="gov-textarea" id="govNotes" oninput="triggerNotesCloudSave()" placeholder="Sélectionnez ou créez un dossier pour éditer ses annexes..."></textarea>
+                <div class="save-status" id="saveStatus">Liaison satellite chiffrée — Données synchronisées</div>
             </div>
         </div>
     </div>
 
+    <!-- ================= SCRIPTS & CONFIG FIREBASE ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -488,11 +530,16 @@
             "defense": { mdp: "1987", role: "Ministre de la Défense", perm: "defense" },
             "justice": { mdp: "5129", role: "Ministre de la Justice", perm: "justice" },
             "com":   { mdp: "1643", role: "Ministre de la Communication", perm: "communication" },
-            "gouv": { mdp: "adminmdt", role: "Président (Toutes Perms)", perm: "admin" }
+            "gouv": { mdp: "adminmdt", role: "Gouverneur, Le seul l'unique (le bo gausse)", perm: "admin" }
         };
 
         let currentUser = null;
-        let currentActiveSection = "";
+        let currentActiveSection = ""; 
+        let currentActiveFolderId = ""; 
+        let foldersList = {}; 
+
+        let unsubscribeBaseNotes = null;
+        let unsubscribeFolders = null;
         let unsubscribeNotes = null;
         let unsubscribeTables = null;
 
@@ -505,9 +552,7 @@
                 currentUser = USERS[userIn];
                 errorMsg.style.display = "none";
                 setupDashboard();
-            } else {
-                errorMsg.style.display = "block";
-            }
+            } else { errorMsg.style.display = "block"; }
         }
 
         function setupDashboard() {
@@ -515,15 +560,16 @@
             document.getElementById("dashboardPage").style.display = "grid";
             document.getElementById("displayRole").innerText = currentUser.role;
 
+            const btnGov = document.getElementById("btn-gouvernement");
             const btnDefense = document.getElementById("btn-defense");
             const btnJustice = document.getElementById("btn-justice");
             const btnComms = document.getElementById("btn-communication");
 
             if (currentUser.perm === "admin") {
-                btnDefense.style.display = "block"; btnJustice.style.display = "block"; btnComms.style.display = "block";
-                switchSection("defense");
+                btnGov.style.display = "block"; btnDefense.style.display = "block"; btnJustice.style.display = "block"; btnComms.style.display = "block";
+                switchSection("gouvernement");
             } else {
-                btnDefense.style.display = "none"; btnJustice.style.display = "none"; btnComms.style.display = "none";
+                btnGov.style.display = "none"; btnDefense.style.display = "none"; btnJustice.style.display = "none"; btnComms.style.display = "none";
                 const allowedBtn = document.getElementById(`btn-${currentUser.perm}`);
                 if (allowedBtn) { allowedBtn.style.display = "block"; switchSection(currentUser.perm); }
             }
@@ -531,19 +577,24 @@
 
         window.switchSection = function(sectionName) {
             currentActiveSection = sectionName;
+            currentActiveFolderId = ""; 
+            foldersList = {}; 
 
             document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
             const activeBtn = document.getElementById(`btn-${sectionName}`);
             if (activeBtn) activeBtn.classList.add('active');
 
             const titles = {
-                defense: "Ministère de la Défense Nationale",
-                justice: "Ministère de la Justice et des Lois",
-                communication: "Ministère de la Communication et Propagande"
+                gouvernement: "Gouvernement",
+                defense: "Ministre de la Défense",
+                justice: "Ministre de la Justice",
+                communication: "Ministre de la Communication"
             };
+            
             document.getElementById("currentSectionTitle").innerText = titles[sectionName];
-            document.getElementById("notesLabel").innerText = `Directives : ${titles[sectionName]}`;
+            document.getElementById("baseNotesLabel").innerText = `Directives Fondamentales — ${titles[sectionName]}`;
 
+            // Affichage conditionnel des tableaux de défense
             const tablesWrapper = document.getElementById("defenseTables");
             if (sectionName === "defense") {
                 tablesWrapper.style.display = "block";
@@ -553,14 +604,122 @@
                 if (unsubscribeTables) { unsubscribeTables(); unsubscribeTables = null; }
             }
 
-            document.getElementById("govNotes").value = "Synchronisation réseau...";
-            listenToNotesCloud(sectionName);
+            document.getElementById("govBaseNotes").value = "Chargement des directives...";
+            document.getElementById("govNotes").value = "Veuillez sélectionner un sous-dossier.";
+
+            listenToBaseNotesCloud(sectionName);
+            listenToFoldersStructure(sectionName);
         }
 
-        function listenToNotesCloud(sectionName) {
-            if (unsubscribeNotes) unsubscribeNotes();
-            unsubscribeNotes = onSnapshot(doc(db, "gouvernement", `notes_${sectionName}`), (docSnap) => {
+        // --- SYNCHRONISATION DES NOTES DE BASE (TOUT EN HAUT) ---
+        function listenToBaseNotesCloud(sectionName) {
+            if (unsubscribeBaseNotes) unsubscribeBaseNotes();
+            
+            // Rebranchement direct sur tes anciennes notes d'origines pour préserver l'historique
+            unsubscribeBaseNotes = onSnapshot(doc(db, "gouvernement", `notes_${sectionName}`), (docSnap) => {
                 if (currentActiveSection === sectionName) {
+                    if (docSnap.exists() && document.activeElement !== document.getElementById("govBaseNotes")) {
+                        document.getElementById("govBaseNotes").value = docSnap.data().text || "";
+                    } else if (!docSnap.exists() && document.activeElement !== document.getElementById("govBaseNotes")) {
+                        document.getElementById("govBaseNotes").value = "";
+                    }
+                }
+            });
+        }
+
+        let baseNotesTimeout;
+        window.triggerBaseNotesCloudSave = function() {
+            clearTimeout(baseNotesTimeout);
+            const sectionAEnregistrer = currentActiveSection;
+            baseNotesTimeout = setTimeout(async () => {
+                const textContent = document.getElementById("govBaseNotes").value;
+                await setDoc(doc(db, "gouvernement", `notes_${sectionAEnregistrer}`), { text: textContent }, { merge: true });
+                showSaveStatus();
+            }, 400);
+        }
+
+        // --- GESTION DES DOSSIERS CRÉABLES ---
+        function listenToFoldersStructure(sectionName) {
+            if (unsubscribeFolders) unsubscribeFolders();
+            
+            unsubscribeFolders = onSnapshot(doc(db, "structure_dossiers", `structure_${sectionName}`), (docSnap) => {
+                if (currentActiveSection !== sectionName) return;
+                
+                const container = document.getElementById("folderTabs");
+                container.innerHTML = "";
+
+                if (docSnap.exists()) {
+                    foldersList = docSnap.data().folders || {};
+                    const keys = Object.keys(foldersList).sort();
+
+                    keys.forEach(id => {
+                        const folderName = foldersList[id];
+                        const isActive = (id === currentActiveFolderId);
+                        
+                        let tabHtml = `
+                            <div class="folder-tab ${isActive ? 'active' : ''}" onclick="selectFolder('${id}')">
+                                <span>📁 ${folderName}</span>
+                                <button class="folder-action-btn" onclick="renameFolder(event, '${id}')">✏️</button>
+                                <button class="folder-action-btn" onclick="deleteFolder(event, '${id}')">✕</button>
+                            </div>
+                        `;
+                        container.insertAdjacentHTML('beforeend', tabHtml);
+                    });
+
+                    if (currentActiveFolderId === "" && keys.length > 0) {
+                        selectFolder(keys[0]);
+                    }
+                } else {
+                    foldersList = {};
+                    document.getElementById("govNotes").value = "Aucun sous-dossier annexe créé. Cliquez sur '+ Nouveau Dossier'.";
+                }
+            });
+        }
+
+        window.createNewFolder = async function() {
+            const name = prompt("Nom du sous-dossier :");
+            if (!name || name.trim() === "") return;
+
+            const folderId = "f_" + Date.now();
+            foldersList[folderId] = name.trim();
+
+            await setDoc(doc(db, "structure_dossiers", `structure_${currentActiveSection}`), { folders: foldersList });
+            selectFolder(folderId);
+        }
+
+        window.renameFolder = async function(event, id) {
+            event.stopPropagation();
+            const oldName = foldersList[id];
+            const newName = prompt(`Renommer le dossier en :`, oldName);
+            if (!newName || newName.trim() === "" || newName === oldName) return;
+
+            foldersList[id] = newName.trim();
+            await setDoc(doc(db, "structure_dossiers", `structure_${currentActiveSection}`), { folders: foldersList });
+        }
+
+        window.deleteFolder = async function(event, id) {
+            event.stopPropagation();
+            if (!confirm(`Supprimer ce dossier et toutes ses données annexes ?`)) return;
+
+            delete foldersList[id];
+            await setDoc(doc(db, "structure_dossiers", `structure_${currentActiveSection}`), { folders: foldersList });
+            
+            if (currentActiveFolderId === id) {
+                currentActiveFolderId = "";
+                document.getElementById("govNotes").value = "Sélectionnez un dossier.";
+            }
+        }
+
+        window.selectFolder = function(id) {
+            currentActiveFolderId = id;
+            document.querySelectorAll(".folder-tab").forEach(tab => tab.classList.remove("active"));
+            listenToNotesCloud(id);
+        }
+
+        function listenToNotesCloud(folderId) {
+            if (unsubscribeNotes) unsubscribeNotes();
+            unsubscribeNotes = onSnapshot(doc(db, "contenu_dossiers", `txt_${folderId}`), (docSnap) => {
+                if (currentActiveFolderId === folderId) {
                     if (docSnap.exists() && document.activeElement !== document.getElementById("govNotes")) {
                         document.getElementById("govNotes").value = docSnap.data().text || "";
                     } else if (!docSnap.exists() && document.activeElement !== document.getElementById("govNotes")) {
@@ -570,65 +729,55 @@
             });
         }
 
+        let notesTimeout;
+        window.triggerNotesCloudSave = function() {
+            if (!currentActiveFolderId) return;
+            clearTimeout(notesTimeout);
+            const folderAEnregistrer = currentActiveFolderId;
+            
+            notesTimeout = setTimeout(async () => {
+                const textContent = document.getElementById("govNotes").value;
+                await setDoc(doc(db, "contenu_dossiers", `txt_${folderAEnregistrer}`), { text: textContent }, { merge: true });
+                showSaveStatus();
+            }, 400);
+        }
+
+        // --- TABLEAUX LOGISTIQUES DÉFENSE ---
         function listenToTablesCloud() {
             if (unsubscribeTables) unsubscribeTables();
             unsubscribeTables = onSnapshot(doc(db, "gouvernement", "defense_tables"), (docSnap) => {
                 if (docSnap.exists() && currentActiveSection === "defense") {
                     const data = docSnap.data();
                     if (document.activeElement?.closest('table') === null) {
-                        
-                        // Injection temporaire pour vérifier et réparer les anciennes lignes stockées
                         let targetHierarchy = document.getElementById("tableHierarchy");
                         let targetWeapons = document.getElementById("tableWeapons");
                         
                         if (data.hierarchy) targetHierarchy.innerHTML = data.hierarchy;
                         if (data.weapons) targetWeapons.innerHTML = data.weapons;
                         
-                        // SÉCURITÉ DE MISE À JOUR AUTOMATIQUE DES LIGNES
-                        repairMissingButtons(targetHierarchy, 4); // 4 colonnes au total pour la hierarchie
-                        repairMissingButtons(targetWeapons, 5);   // 5 colonnes au total pour l'armement
-                        
+                        repairMissingButtons(targetHierarchy, 4);
+                        repairMissingButtons(targetWeapons, 5);
                         attachDeleteEvents();
                     }
                 }
             });
         }
 
-        // Fonction magique qui analyse le code chargé de Firebase pour injecter la croix si elle est absente
         function repairMissingButtons(tbody, expectedCells) {
             Array.from(tbody.rows).forEach(row => {
-                // Si la ligne n'a pas le bon nombre de colonnes ou s'il manque la classe d'action, on répare
                 if (row.cells.length < expectedCells || !row.querySelector('.td-action')) {
-                    // Supprime l'ancienne colonne d'action cassée s'il y en avait une défectueuse
                     const existingAction = row.querySelector('.td-action');
                     if (existingAction) existingAction.remove();
-                    
-                    // Ajuste le nombre de cellules de texte éditables si besoin
                     while (row.cells.length < (expectedCells - 1)) {
                         let newCell = row.insertCell();
                         newCell.contentEditable = "true";
                     }
-                    
-                    // Injecte la case d'action propre avec son bouton fonctionnel
                     const actionCell = row.insertCell();
                     actionCell.className = "td-action";
                     actionCell.innerHTML = '<button class="delete-row-btn">✕</button>';
-                    
-                    // Force la sauvegarde automatique du tableau réparé dans Firebase
                     triggerTableCloudSave();
                 }
             });
-        }
-
-        let notesTimeout;
-        window.triggerNotesCloudSave = function() {
-            clearTimeout(notesTimeout);
-            const sectionAEnregistrer = currentActiveSection;
-            notesTimeout = setTimeout(async () => {
-                const textContent = document.getElementById("govNotes").value;
-                await setDoc(doc(db, "gouvernement", `notes_${sectionAEnregistrer}`), { text: textContent }, { merge: true });
-                showSaveStatus();
-            }, 400);
         }
 
         let tablesTimeout;
@@ -647,14 +796,10 @@
         window.addRow = function(tableId) {
             const tbody = document.getElementById(tableId);
             const colCount = tbody.closest('table').querySelectorAll('thead th').length - 1;
-            
             let newRow = '<tr>';
-            for (let i = 0; i < colCount; i++) { 
-                newRow += '<td contenteditable="true"></td>'; 
-            }
+            for (let i = 0; i < colCount; i++) { newRow += '<td contenteditable="true"></td>'; }
             newRow += '<td class="td-action"><button class="delete-row-btn">✕</button></td>';
             newRow += '</tr>';
-            
             tbody.insertAdjacentHTML('beforeend', newRow);
             triggerTableCloudSave();
             attachDeleteEvents();
@@ -662,10 +807,7 @@
 
         window.removeSelectedRow = function(buttonInstance) {
             const row = buttonInstance.closest('tr');
-            if (row) {
-                row.remove();
-                triggerTableCloudSave();
-            }
+            if (row) { row.remove(); triggerTableCloudSave(); }
         };
 
         function attachDeleteEvents() {
@@ -681,10 +823,13 @@
         }
 
         window.handleLogout = function() {
+            if (unsubscribeBaseNotes) unsubscribeBaseNotes();
+            if (unsubscribeFolders) unsubscribeFolders();
             if (unsubscribeNotes) unsubscribeNotes();
             if (unsubscribeTables) unsubscribeTables();
             currentUser = null;
             currentActiveSection = "";
+            currentActiveFolderId = "";
             document.getElementById("username").value = "";
             document.getElementById("password").value = "";
             document.getElementById("loginPage").style.display = "block";
