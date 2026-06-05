@@ -322,31 +322,13 @@
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
-        .gallery-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .gallery-title {
-            font-family: 'Quantico', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--accent-gold);
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
-            margin-top: 10px;
-        }
-
+        .gallery-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .gallery-title { font-family: 'Quantico', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--accent-gold); }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; margin-top: 10px; }
+        
         .image-item {
             position: relative;
             background: #090d12;
@@ -359,13 +341,7 @@
             align-items: center;
         }
 
-        .image-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            cursor: zoom-in;
-        }
-
+        .image-item img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; }
         .image-item img:hover { transform: scale(1.05); }
 
         .delete-img-btn {
@@ -387,8 +363,8 @@
         }
         .delete-img-btn:hover { background: var(--error-red); }
 
-        /* --- TABLEAUX DEFENSE --- */
-        .defense-tables-wrapper { display: none; margin-bottom: 30px; }
+        /* --- TABLEAUX DEFENSE (MAINTENANT TOUT EN BAS) --- */
+        .defense-tables-wrapper { display: none; margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--border-color); }
         .table-title {
             font-family: 'Quantico', sans-serif;
             font-size: 13px;
@@ -413,6 +389,12 @@
         }
 
         .gov-table th { background-color: #161e27; color: var(--text-muted); text-align: left; padding: 14px; font-weight: 600; font-size: 11px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); }
+        
+        /* drag & drop styling */
+        .gov-table tbody tr { cursor: grab; }
+        .gov-table tbody tr:active { cursor: grabbing; background-color: #1a2430 !important; }
+        .gov-table tbody tr.dragging { opacity: 0.5; background: #1a222d; }
+
         .gov-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-color); background-color: var(--bg-card); color: var(--text-main); }
         .gov-table tr:last-child td { border-bottom: none; }
         .gov-table td[contenteditable="true"]:hover { background-color: var(--bg-input); cursor: cell; }
@@ -486,16 +468,37 @@
                 <div class="section-badge">RÉSEAU SÉCURISÉ CLOUD</div>
             </div>
 
-            <!-- NOTES DE BASE DE LA CATÉGORIE (TOUT EN HAUT) -->
+            <!-- 1. NOTES DE BASE DE LA CATÉGORIE (TOUT EN HAUT) -->
             <div class="base-notes-container">
                 <label class="base-notes-label" id="baseNotesLabel">Directives Générales Fixes</label>
                 <textarea class="gov-textarea-base" id="govBaseNotes" oninput="triggerBaseNotesCloudSave()" placeholder="Notes fondamentales du ministère..."></textarea>
             </div>
 
-            <!-- TABLEAUX DÉFENSE (UNIQUEMENT POUR LA DÉFENSE) -->
+            <!-- 2. SYSTÈME DE DOSSIERS EN SUB-ONGLETS -->
+            <div class="folder-system-title">Dossiers archivés et annexes</div>
+            <div class="folder-system-bar">
+                <div class="folder-tabs-container" id="folderTabs"></div>
+                <button class="add-folder-btn" onclick="createNewFolder()">+ Nouveau Dossier</button>
+            </div>
+
+            <!-- 3. ZONE DE NOTES LIÉE AU DOSSIER UNIQUE SÉLECTIONNÉ -->
+            <div class="notes-container">
+                <textarea class="gov-textarea" id="govNotes" oninput="triggerNotesCloudSave()" placeholder="Sélectionnez ou créez un sous-dossier..."></textarea>
+            </div>
+
+            <!-- 4. BANQUE D'IMAGES LIÉE AU DOSSIER -->
+            <div class="image-gallery-wrapper">
+                <div class="gallery-header">
+                    <div class="gallery-title">📁 Documents visuels joints au dossier</div>
+                    <button class="action-row-btn" onclick="addImageToFolder()">+ Joindre un lien d'image</button>
+                </div>
+                <div class="gallery-grid" id="galleryGrid"></div>
+            </div>
+
+            <!-- 5. TABLEAUX DÉFENSE (POSITIONNÉS TOUT EN BAS DÉSORMAIS) -->
             <div class="defense-tables-wrapper" id="defenseTables">
                 <div class="table-title">
-                    <span>Hiérarchie et Haut Commandement</span>
+                    <span>Hiérarchie et Haut Commandement (Lignes déplaçables)</span>
                     <button class="action-row-btn" onclick="addRow('tableHierarchy')">+ Ajouter une Ligne</button>
                 </div>
                 <table class="gov-table">
@@ -511,7 +514,7 @@
                 </table>
 
                 <div class="table-title">
-                    <span>Registre Logistique de l'Armement</span>
+                    <span>Registre Logistique de l'Armement (Lignes déplaçables)</span>
                     <button class="action-row-btn" onclick="addRow('tableWeapons')">+ Ajouter un Matériel</button>
                 </div>
                 <table class="gov-table">
@@ -526,29 +529,6 @@
                     </thead>
                     <tbody id="tableWeapons" oninput="triggerTableCloudSave()"></tbody>
                 </table>
-            </div>
-
-            <!-- SYSTÈME DE DOSSIERS EN SUB-ONGLETS -->
-            <div class="folder-system-title">Dossiers archivés et annexes</div>
-            <div class="folder-system-bar">
-                <div class="folder-tabs-container" id="folderTabs"></div>
-                <button class="add-folder-btn" onclick="createNewFolder()">+ Nouveau Dossier</button>
-            </div>
-
-            <!-- ZONE DE NOTES LIÉE AU DOSSIER UNIQUE SÉLECTIONNÉ -->
-            <div class="notes-container">
-                <textarea class="gov-textarea" id="govNotes" oninput="triggerNotesCloudSave()" placeholder="Sélectionnez ou créez un sous-dossier..."></textarea>
-            </div>
-
-            <!-- BANQUE D'IMAGES COMPLÈTE LIÉE AU DOSSIER -->
-            <div class="image-gallery-wrapper">
-                <div class="gallery-header">
-                    <div class="gallery-title">📁 Documents visuels joints au dossier</div>
-                    <button class="action-row-btn" onclick="addImageToFolder()">+ Joindre un lien d'image</button>
-                </div>
-                <div class="gallery-grid" id="galleryGrid">
-                    <!-- Les photos se chargent dynamiquement ici -->
-                </div>
                 <div class="save-status" id="saveStatus">Liaison satellite chiffrée — Synchronisation OK</div>
             </div>
 
@@ -583,7 +563,7 @@
         let currentActiveSection = ""; 
         let currentActiveFolderId = ""; 
         let foldersList = {}; 
-        let folderImages = []; // Contient la liste des URLs d'images du dossier actif
+        let folderImages = []; 
 
         let unsubscribeBaseNotes = null;
         let unsubscribeFolders = null;
@@ -659,7 +639,7 @@
             listenToFoldersStructure(sectionName);
         }
 
-        // --- NOTES PRINCIPALES FIXES ---
+        // --- NOTES DE BASE ---
         function listenToBaseNotesCloud(sectionName) {
             if (unsubscribeBaseNotes) unsubscribeBaseNotes();
             unsubscribeBaseNotes = onSnapshot(doc(db, "gouvernement", `notes_${sectionName}`), (docSnap) => {
@@ -684,7 +664,7 @@
             }, 400);
         }
 
-        // --- STRUCTURE DES DOSSIERS ---
+        // --- DOSSIERS STRUCTURE ---
         function listenToFoldersStructure(sectionName) {
             if (unsubscribeFolders) unsubscribeFolders();
             unsubscribeFolders = onSnapshot(doc(db, "structure_dossiers", `structure_${sectionName}`), (docSnap) => {
@@ -762,19 +742,16 @@
             listenToNotesCloud(id);
         }
 
-        // --- CONTENU ET IMAGES DU DOSSIER ACTIF ---
         function listenToNotesCloud(folderId) {
             if (unsubscribeNotes) unsubscribeNotes();
             unsubscribeNotes = onSnapshot(doc(db, "contenu_dossiers", `txt_${folderId}`), (docSnap) => {
                 if (currentActiveFolderId === folderId) {
-                    // Lecture du texte
                     if (docSnap.exists() && document.activeElement !== document.getElementById("govNotes")) {
                         document.getElementById("govNotes").value = docSnap.data().text || "";
                     } else if (!docSnap.exists() && document.activeElement !== document.getElementById("govNotes")) {
                         document.getElementById("govNotes").value = "";
                     }
 
-                    // Lecture et affichage des images
                     const grid = document.getElementById("galleryGrid");
                     grid.innerHTML = "";
                     folderImages = (docSnap.exists() && docSnap.data().images) ? docSnap.data().images : [];
@@ -797,7 +774,6 @@
             if (!currentActiveFolderId) return;
             clearTimeout(notesTimeout);
             const folderAEnregistrer = currentActiveFolderId;
-            
             notesTimeout = setTimeout(async () => {
                 const textContent = document.getElementById("govNotes").value;
                 await setDoc(doc(db, "contenu_dossiers", `txt_${folderAEnregistrer}`), { text: textContent, images: folderImages }, { merge: true });
@@ -805,29 +781,26 @@
             }, 400);
         }
 
-        // --- AJOUT ET SUPPRESSION D'IMAGES ---
         window.addImageToFolder = async function() {
             if (!currentActiveFolderId) return alert("Veuillez d'abord sélectionner ou créer un dossier.");
-            const url = prompt("Collez le lien URL direct de votre image (ex: lien Imgur, Discord, Lightshot, etc.) :");
+            const url = prompt("Collez le lien URL direct de votre image :");
             if (!url || url.trim() === "") return;
 
             folderImages.push(url.trim());
-            
             const textContent = document.getElementById("govNotes").value;
             await setDoc(doc(db, "contenu_dossiers", `txt_${currentActiveFolderId}`), { text: textContent, images: folderImages }, { merge: true });
             showSaveStatus();
         }
 
         window.removeImageFromFolder = async function(index) {
-            if (!confirm("Détacher cette image du dossier sécurisé ?")) return;
+            if (!confirm("Détacher cette image du dossier ?")) return;
             folderImages.splice(index, 1);
-            
             const textContent = document.getElementById("govNotes").value;
             await setDoc(doc(db, "contenu_dossiers", `txt_${currentActiveFolderId}`), { text: textContent, images: folderImages }, { merge: true });
             showSaveStatus();
         }
 
-        // --- TABLEAUX LOGISTIQUES ---
+        // --- TABLEAUX DE DEFENSE AVEC SYSTEME DRAG & DROP (GLISSER-DEPOSER) ---
         function listenToTablesCloud() {
             if (unsubscribeTables) unsubscribeTables();
             unsubscribeTables = onSnapshot(doc(db, "gouvernement", "defense_tables"), (docSnap) => {
@@ -842,6 +815,8 @@
                         
                         repairMissingButtons(targetHierarchy, 4);
                         repairMissingButtons(targetWeapons, 5);
+                        makeRowsDraggable(targetHierarchy);
+                        makeRowsDraggable(targetWeapons);
                         attachDeleteEvents();
                     }
                 }
@@ -862,6 +837,37 @@
                     actionCell.innerHTML = '<button class="delete-row-btn">✕</button>';
                     triggerTableCloudSave();
                 }
+            });
+        }
+
+        // Algorithme natif HTML5 pour rendre les lignes de tableaux réorganisables
+        function makeRowsDraggable(tbody) {
+            Array.from(tbody.rows).forEach(row => {
+                row.draggable = true;
+                
+                row.ondragstart = (e) => {
+                    row.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                };
+
+                row.ondragend = () => {
+                    row.classList.remove('dragging');
+                    triggerTableCloudSave(); // Sauvegarde automatique dès qu'on lâche la ligne
+                };
+
+                row.ondragover = (e) => {
+                    e.preventDefault();
+                    const draggingRow = tbody.querySelector('.dragging');
+                    if (!draggingRow || draggingRow === row) return;
+                    
+                    const bounding = row.getBoundingClientRect();
+                    const offset = e.clientY - bounding.top;
+                    if (offset > bounding.height / 2) {
+                        row.after(draggingRow);
+                    } else {
+                        row.before(draggingRow);
+                    }
+                };
             });
         }
 
@@ -886,7 +892,9 @@
             newRow += '<td class="td-action"><button class="delete-row-btn">✕</button></td>';
             newRow += '</tr>';
             tbody.insertAdjacentHTML('beforeend', newRow);
+            
             triggerTableCloudSave();
+            makeRowsDraggable(tbody);
             attachDeleteEvents();
         };
 
